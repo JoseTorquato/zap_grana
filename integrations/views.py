@@ -14,9 +14,10 @@ class WebhookActiveCampaign(APIView):
             print(id)
             print(request.data.dict())
             data = self._process_data(request.data.dict())
-            phone_number = data.get("contact[phone]", "")
+            print("DATA =>", data)
+            phone_number = data.get("phone", "")
             formatted_phone = self._format_phone_number(phone_number)
-            formatted_message = f'{data.get("list", "")}:\nNome: {data.get("contact[first_name]", "")}\nContato: {data.get("contact[phone]", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'{data.get("list", "")}:\nNome: {data.get("first_name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             print("FORMAT", formatted_message)
             return Response(formatted_message, status=status.HTTP_200_OK)
@@ -25,7 +26,8 @@ class WebhookActiveCampaign(APIView):
             return Response(e, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
-        contact = {
+        return  {
+            "list": data["list"],
             "id": data["contact[id]"],
             "email": data["contact[email]"],
             "first_name": data["contact[first_name]"],
@@ -33,11 +35,6 @@ class WebhookActiveCampaign(APIView):
             "phone": data["contact[phone]"],
             "ip": data["contact[ip]"],
             "tags": data["contact[tags]"]
-        }
-
-        return {
-            "list": data["list"],
-            "contact": contact
         }
 
     def _format_phone_number(self, phone_number):
