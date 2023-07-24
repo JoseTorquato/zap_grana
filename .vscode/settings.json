@@ -3,6 +3,7 @@
         "editor.defaultFormatter": "ms-python.autopep8"
     },
     "python.formatting.provider": "none",
+    "editor.tabSize": 4,
     "files.exclude": {
         "**/__snapshots__": true,
         "**/.DS_Store": true,
