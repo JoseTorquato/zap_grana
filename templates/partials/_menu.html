@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load static %}
+<div class="sidebar__menu-group">
+    <ul class="sidebar_nav">
+        <li>
+            <a href="{% url 'home' %}">
+                <span class="nav-icon uil uil-chart"></span>
+                <span class="menu-text">Dashboard</span>
+                <!-- <span class="toggle-icon"></span> -->
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'integrations' %}">
+                <span class="nav-icon uil uil-apps"></span>
+                <span class="menu-text">Integrações</span>
+                <!-- <span class="toggle-icon"></span> -->
+            </a>
+        </li>
+    </ul>
+</div>

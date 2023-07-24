@@ -1,0 +1,17 @@
+{
+    "type": [
+        "subscribe"
+    ],
+    "date_time": [
+        "2023-07-23T18: 47: 11-05: 00"
+    ],
+    "initiated_from": [
+        "admin"
+    ],
+    "initiated_by": [
+        "admin"
+    ],
+    "list": [
+        "81"
+    ], "contact[id]": ["2842"], "contact[email]": ["jltorquato12@gmail.com"], "contact[first_name]": ["José"], "contact[last_name]": ["Torquato"], "contact[phone]": ["51991913505"], "contact[ip]": ["74.125.210.101"], "contact[tags]": ["Alunos Inimigos"], "active_subscriptions[0]": ["32"], "active_subscriptions[1]": ["81"], "active_subscriptions[2]": ["83"], "active_subscriptions[3]": ["119"], "active_subscriptions[4]": ["125"], "active_subscriptions[5]": ["132"]
+}
