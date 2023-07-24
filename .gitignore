@@ -4,3 +4,5 @@
 .idea
 vercel.json
 
+__pycache__/
+*.pyc
