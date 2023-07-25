@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from integrations.models import Integration
+
 class WebhookActiveCampaign(APIView):
     def post(self, request, id):
         try:
@@ -37,11 +39,36 @@ class WebhookActiveCampaign(APIView):
 
 
 def integration_view(request):
-    webhook_context = { 
-        "status": "Desativado",
-        "url": f"http://15.228.146.110/integrations/{request.user.profile.uuid}/active-campaign",
-        "countCalls": 0
-    }
+    if request.method == 'POST':
+        btn = request.POST.get('btn')
+        schema_integration = request.POST.get('integration')
+        uuid = request.user.profile.uuid
+        url = f"http://15.228.146.110/integrations/{request.user.profile.uuid}/{schema_integration}"
+        
+        try: 
+            integration = Integration.objects.get(user_uuid=request.user.profile.uuid)
+            if btn == 'Desativar':
+                integration.delete()
+        except:
+            integration = Integration(user_uuid=uuid, url=url, status='Ativo')
+            integration.save()
+
+    try:
+        integration = Integration.objects.get(user_uuid=request.user.profile.uuid)
+
+        webhook_context = { 
+            "status": integration.status,
+            "url": integration.url,
+            "countCalls": integration.call_count
+        }
+    except Integration.DoesNotExist:
+        webhook_context = { 
+            "status": "Desativado",
+            "url": '-',
+            "countCalls": '-'
+        }
+    
+
     return render(
         request, 
         'pages/integrations/integration.html', 
