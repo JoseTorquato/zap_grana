@@ -6,5 +6,5 @@ urlpatterns = [
     path("", integration_view, name="integrations"),
 
     # WebHooks
-    path("<int:id>/active-campaign", WebhookActiveCampaign.as_view(), name="active-campaign")
+    path("<str:id>/active-campaign", WebhookActiveCampaign.as_view(), name="active-campaign")
 ]

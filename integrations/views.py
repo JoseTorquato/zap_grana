@@ -1,3 +1,4 @@
+from typing import Any
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -6,6 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from integrations.models import Integration
+from core.api.whatsapp import WhatsApp
+from user.models import Profile
+
 
 class WebhookActiveCampaign(APIView):
     def post(self, request, id):
@@ -17,13 +21,17 @@ class WebhookActiveCampaign(APIView):
 
             # Enviar para a fila do whatsapp
             print("FORMAT", formatted_message)
+            print("ID", id)
+            user = Profile.objects.get(uuid=id)
+            print("User", user)
+            WhatsApp.send_message(formatted_message, user.phone)
             return Response(formatted_message, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response(e, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
-        return  {
+        return {
             "list": data["list"],
             "id": data["contact[id]"],
             "email": data["contact[email]"],
@@ -35,8 +43,10 @@ class WebhookActiveCampaign(APIView):
         }
 
     def _format_phone_number(self, phone_number):
-        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
+        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(
+            " ", "").replace("-", "").replace("+55", "")
         return cleaned_phone
+
 
 @login_required(login_url='/login')
 def integration_view(request):
@@ -45,9 +55,10 @@ def integration_view(request):
         schema_integration = request.POST.get('integration')
         uuid = request.user.profile.uuid
         url = f"http://15.228.146.110/integrations/{request.user.profile.uuid}/{schema_integration}"
-        
-        try: 
-            integration = Integration.objects.get(user_uuid=request.user.profile.uuid)
+
+        try:
+            integration = Integration.objects.get(
+                user_uuid=request.user.profile.uuid)
             if btn == 'Desativar':
                 integration.delete()
         except:
@@ -55,22 +66,22 @@ def integration_view(request):
             integration.save()
 
     try:
-        integration = Integration.objects.get(user_uuid=request.user.profile.uuid)
+        integration = Integration.objects.get(
+            user_uuid=request.user.profile.uuid)
 
-        webhook_context = { 
+        webhook_context = {
             "status": integration.status,
             "url": integration.url,
             "countCalls": integration.call_count
         }
     except Integration.DoesNotExist:
-        webhook_context = { 
+        webhook_context = {
             "status": "Desativado",
             "url": '-',
             "countCalls": '-'
         }
-    
 
     return render(
-        request, 
-        'pages/integrations/integration.html', 
-        context={ "weebhook": webhook_context })
+        request,
+        'pages/integrations/integration.html',
+        context={"weebhook": webhook_context})
