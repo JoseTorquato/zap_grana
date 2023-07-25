@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from rest_framework import status
@@ -37,7 +38,7 @@ class WebhookActiveCampaign(APIView):
         cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
         return cleaned_phone
 
-
+@login_required(login_url='/login')
 def integration_view(request):
     if request.method == 'POST':
         btn = request.POST.get('btn')

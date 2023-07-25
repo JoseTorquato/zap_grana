@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from user.models import Profile
 
+@login_required(login_url='/login')
 def profile_view(request):
     if request.method == 'POST':
         name = request.POST.get('name')
