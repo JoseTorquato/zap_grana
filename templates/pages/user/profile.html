@@ -1,0 +1,66 @@
+{% extends 'layout/app.html' %}
+
+{% block title %} User Add {% endblock %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex align-items-center user-member__title mb-30 mt-30">
+                <h4 class="text-capitalize">{{ user.get_full_name }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="user-info-tab w-100 bg-white global-shadow radius-xl mb-50">
+                <div class="ap-tab-wrapper border-bottom ">
+                    <ul class="nav px-30 ap-tab-main text-capitalize" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Perfil</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade  show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-6 col-sm-6 col-10">
+                                <div class="mt-40 mb-50">
+                                    <div class="user-tab-info-title mb-40 text-capitalize">
+                                        <h5 class="fw-500">Perfil</h5>
+                                    </div>
+                                    <div class="edit-profile__body">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group mb-25">
+                                                <label for="name1">Nome</label>
+                                                <input type="text" class="form-control" id="name1" name="name" placeholder="Duran Clayton" value="{{ user.profile.name }}">
+                                            </div>
+                                            <div class="form-group mb-25">
+                                                <label for="name2">Email</label>
+                                                <input type="email" class="form-control" id="name2" name="email" placeholder="sample@email.com" value="{{ user.profile.email }}">
+                                            </div>
+                                            <div class="form-group mb-25">
+                                                <label for="phoneNumber5">WhatsApp</label>
+                                                <input type="tel" class="form-control" id="phoneNumber5" name="phone" placeholder="51 12546-5236" value="{{ user.profile.phone }}">
+                                            </div>
+                                            <div class="button-group d-flex pt-25 justify-content-end">
+                                                <button type="submit" class="btn btn-primary btn-default btn-squared text-capitalize radius-md shadow2 btn-sm">Salvar
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -39,7 +39,7 @@ class WebhookActiveCampaign(APIView):
 def integration_view(request):
     webhook_context = { 
         "status": "Desativado",
-        "url": "-",#f"http://15.228.146.110/integrations/{request.user.id}/active-campaign",
+        "url": f"http://15.228.146.110/integrations/{request.user.profile.uuid}/active-campaign",
         "countCalls": 0
     }
     return render(
