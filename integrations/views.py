@@ -28,6 +28,8 @@ class WebhookActiveCampaign(APIView):
             return Response(formatted_message, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
+            print("DATA =>", data)
+            print("USER =>", user)
             return Response(e, status=status.HTTP_200_OK)
 
     def _process_data(self, data):

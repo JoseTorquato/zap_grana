@@ -10,6 +10,7 @@ class WhatsApp:
             "number": f"55{phone_to_send}",
             "message": message
         }
+        print("WHATS=>", message, phone_to_send)
 
         response = requests.post(self.base_url, json=message_data)
         return response
