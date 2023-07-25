@@ -12,5 +12,6 @@ class WhatsApp:
         }
         print("WHATS=>", message, phone_to_send)
 
-        response = requests.post(self.base_url, json=json.dumps(message_data))
+        header = {"Content-Type": "application/json"}
+        response = requests.post(f"{self.base_url}/send-message", json=json.dumps(message_data), headers=header)
         return response
