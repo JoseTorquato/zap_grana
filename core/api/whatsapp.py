@@ -1,5 +1,5 @@
 import requests
-
+import json
 
 class WhatsApp:
     def __init__(self):
@@ -12,5 +12,5 @@ class WhatsApp:
         }
         print("WHATS=>", message, phone_to_send)
 
-        response = requests.post(self.base_url, json=message_data)
+        response = requests.post(self.base_url, json=json.dumps(message_data))
         return response
