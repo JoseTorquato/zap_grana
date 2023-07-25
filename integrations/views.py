@@ -25,7 +25,7 @@ class WebhookActiveCampaign(APIView):
             print("ID", id)
             user = Profile.objects.get(uuid=id)
             print("User", user)
-            response = WhatsApp.send_message(formatted_message, user.phone)
+            response = WhatsApp().send_message(formatted_message, user.phone)
             print("Response =>", response)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
