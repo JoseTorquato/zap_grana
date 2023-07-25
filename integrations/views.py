@@ -32,7 +32,7 @@ class WebhookActiveCampaign(APIView):
             print(e)
             print("DATA =>", data)
             print("USER =>", user)
-            return Response(e, status=status.HTTP_200_OK)
+            return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
         return {
