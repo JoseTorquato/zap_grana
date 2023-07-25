@@ -14,6 +14,7 @@ from user.models import Profile
 class WebhookActiveCampaign(APIView):
     def post(self, request, id):
         try:
+            print(request)
             data = self._process_data(request.data.dict())
             phone_number = data.get("phone", "")
             formatted_phone = self._format_phone_number(phone_number)
