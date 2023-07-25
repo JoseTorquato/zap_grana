@@ -6,7 +6,6 @@
     "editor.tabSize": 4,
     "files.exclude": {
         "**/__snapshots__": true,
-        "**/.DS_Store": true,
-        "**/__pycache__/**": true
+        "**/.DS_Store": true
     }
 }
