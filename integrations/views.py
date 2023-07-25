@@ -20,13 +20,10 @@ class WebhookActiveCampaign(APIView):
             formatted_phone = self._format_phone_number(phone_number)
             formatted_message = f'{data.get("list", "")}:\nNome: {data.get("first_name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
-            # Enviar para a fila do whatsapp
-            print("FORMAT", formatted_message)
-            print("ID", id)
+            #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            print("User", user)
             response = WhatsApp().send_message(formatted_message, user.phone)
-            print("Response =>", response.json())
+
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
@@ -35,6 +32,7 @@ class WebhookActiveCampaign(APIView):
             return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
+        print(data)
         return {
             "list": data["list"],
             "id": data["contact[id]"],
