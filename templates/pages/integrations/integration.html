@@ -10,16 +10,16 @@
 <div class="products_page product_page--grid mb-30">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="columns-2 col-lg-12 mt-xl-0 mt-lg-30">
+            <div class="col-lg-12 mt-xl-0 mt-lg-30">
                 <div class="row product-page-list justify-content-center mt-20">
                     <div class="col-12 mb-25 px-10">
                         <div class="card job job--list">
                             <div class="h-100">
                                 <div class="job-item px-25 py-30">
-                                    <div class="card-body p-0  d-flex align-items-sm-center align-items-start flex-wrap">
+                                    <div class="card-body p-0 d-flex align-items-sm-center align-items-start flex-wrap">
                                         <form method="post">
                                             {% csrf_token %}
-                                            <div class="job-item__body text-capitalize d-flex flex-wrap">
+                                            <div class="job-item__body d-flex flex-wrap">
                                                 <div class="job-item__image d-flex align-items-center">
                                                     <a href="#"><img class="job-item__image-img img-fluid" src="{% static 'img/integrations/active-campaign.png' %}" alt="digital-chair"></a>
                                                     <div class="job-item__title">
@@ -33,7 +33,7 @@
                                                 <div class="job-item__content d-flex">
                                                     <div class="job-deadline">
                                                         <span>URL</span>
-                                                        <h6 id="">{{ weebhook.url }}</h6>
+                                                        <h6>{{ weebhook.url }}</h6>
                                                     </div>
                                                     <div class="job-type">
                                                         <span>Status</span>
@@ -44,11 +44,11 @@
                                                         <h6>{{ weebhook.countCalls }}</h6>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="job-item__button d-flex flex-wrap my-sm-0 my-10">
-                                                <button type="submit" name="btn" value="Desativar"  class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}" onclick="activateOrDeactivateWebHook(this)">
-                                                    {% if weebhook.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
-                                                </button>
+                                                <div class="job-item__button d-flex flex-wrap my-sm-0 my-10">
+                                                    <button type="submit" name="btn" value="Desativar"  class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}" onclick="activateOrDeactivateWebHook(this)">
+                                                        {% if weebhook.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
+                                                    </button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
