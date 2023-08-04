@@ -50,6 +50,41 @@ class WebhookActiveCampaign(APIView):
         return cleaned_phone
 
 
+class WebhookHotmart(APIView):
+    def post(self, request, id):
+        try:
+            print(request.data)
+            data = self._process_data(request.data)
+            phone_number = data.get("phone", "")
+            formatted_phone = self._format_phone_number(phone_number)
+            formatted_message = f'{data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+
+            #TODO: Enviar para a fila
+            user = Profile.objects.get(uuid=id)
+            response = WhatsApp().send_message(formatted_message, user.phone)
+
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            print("DATA =>", data)
+            print("USER =>", user)
+            return Response({ "body": str(e)}, status=status.HTTP_200_OK)
+
+    def _process_data(self, data):
+        return {
+            "product": data["data"]["product"]["name"],
+            "id": data["id"],
+            "email": data["data"]["buyer"]["email"],
+            "name": data["data"]["buyer"]["name"],
+            "phone": data["data"]["buyer"]["phone"],
+            "country": data["data"]["checkout_country"]["iso"]
+        }
+
+    def _format_phone_number(self, phone_number):
+        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
+        return cleaned_phone
+
+
 @login_required(login_url='/login')
 def integration_view(request):
     if request.method == 'POST':
