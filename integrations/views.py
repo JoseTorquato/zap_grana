@@ -164,18 +164,19 @@ class WebhookKiwify(APIView):
 
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            # print(e)
-            # print("DATA =>", data)
-            # print("USER =>", user)
+            print(e)
+            print("DATA =>", data)
+            print("USER =>", user)
             return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
         return {
-            "product": data["Product"]["product_name"],
-            "id": data["order_id"],
-            "email": data["Customer"]["email"],
-            "name": data["Customer"]["full_name"],
-            "phone": data["Customer"]["mobile"]
+            "product": data["product_name"],
+            "id": data["id"],
+            "email": data["email"],
+            "name": data["name"],
+            "phone": data["phone"],
+            "country": data["country"]
         }
 
 
