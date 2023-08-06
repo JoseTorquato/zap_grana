@@ -12,10 +12,12 @@ from user.models import Profile
 
 def save_count_call(user_uuid, platform):
     integration = Integration.objects.get(user_uuid=user_uuid, platform=platform)
-    print(integration)
     integration.call_count += 1
     integration.save()
 
+def format_phone_number(phone_number):
+        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
+        return cleaned_phone
 
 class WebhookActiveCampaign(APIView):
     def post(self, request, id):
@@ -23,8 +25,8 @@ class WebhookActiveCampaign(APIView):
             print(request)
             data = self._process_data(request.data.dict())
             phone_number = data.get("phone", "")
-            formatted_phone = self._format_phone_number(phone_number)
-            formatted_message = f'{data.get("list", "")}:\nNome: {data.get("first_name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_phone = format_phone_number(phone_number)
+            formatted_message = f'Checkout Active Campaign:\nProduto: {data.get("list", "")}:\nNome: {data.get("first_name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -50,11 +52,6 @@ class WebhookActiveCampaign(APIView):
             "tags": data["contact[tags]"]
         }
 
-    def _format_phone_number(self, phone_number):
-        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(
-            " ", "").replace("-", "").replace("+55", "")
-        return cleaned_phone
-
 
 class WebhookHotmart(APIView):
     def post(self, request, id):
@@ -62,8 +59,8 @@ class WebhookHotmart(APIView):
             print(request.data)
             data = self._process_data(request.data)
             phone_number = data.get("phone", "")
-            formatted_phone = self._format_phone_number(phone_number)
-            formatted_message = f'{data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_phone = format_phone_number(phone_number)
+            formatted_message = f'Checkout Hotmart:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -87,10 +84,6 @@ class WebhookHotmart(APIView):
             "country": data["data"]["checkout_country"]["iso"]
         }
 
-    def _format_phone_number(self, phone_number):
-        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
-        return cleaned_phone
-
 
 class WebhookEduzz(APIView):
     def post(self, request, id):
@@ -98,8 +91,8 @@ class WebhookEduzz(APIView):
             print(request.data)
             data = self._process_data(request.data)
             phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
-            formatted_phone = self._format_phone_number(phone_number)
-            formatted_message = f'{data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_phone = format_phone_number(phone_number)
+            formatted_message = f'Checkout Eduzz:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -122,9 +115,37 @@ class WebhookEduzz(APIView):
             "phone": data["customer[phone]"]
         }
 
-    def _format_phone_number(self, phone_number):
-        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
-        return cleaned_phone
+
+class WebhookGuru(APIView):
+    def post(self, request, id):
+        try:
+            print(request.data)
+            data = self._process_data(request.data)
+            phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
+            formatted_phone = format_phone_number(phone_number)
+            formatted_message = f'Checkout Guru:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+
+            #TODO: Enviar para a fila
+            user = Profile.objects.get(uuid=id)
+            save_count_call(id, 'eduzz')
+            response = WhatsApp().send_message(formatted_message, user.phone)
+
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            print("DATA =>", data)
+            print("USER =>", user)
+            return Response({ "body": str(e)}, status=status.HTTP_200_OK)
+
+    def _process_data(self, data):
+        return {
+            "product": data["name"],
+            "id": data["id"],
+            "email": data["subscriber"]["email"],
+            "name": data["subscriber"]["name"],
+            "phone": data["subscriber"]["phone_number"],
+            "code": data["subscriber"]["phone_local_code"]
+        }
 
 
 @login_required(login_url='/login')
