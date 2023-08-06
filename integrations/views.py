@@ -10,6 +10,12 @@ from integrations.models import Integration
 from core.api.whatsapp import WhatsApp
 from user.models import Profile
 
+def save_count_call(user_uuid, platform):
+    integration = Integration.objects.get(user_uuid=user_uuid, platform=platform)
+    print(integration)
+    integration.call_count += 1
+    integration.save()
+
 
 class WebhookActiveCampaign(APIView):
     def post(self, request, id):
@@ -22,6 +28,7 @@ class WebhookActiveCampaign(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
+            save_count_call(id, 'activeCampaign')
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
@@ -60,6 +67,7 @@ class WebhookHotmart(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
+            save_count_call(id, 'hotmart')
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
@@ -95,6 +103,7 @@ class WebhookEduzz(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
+            save_count_call(id, 'eduzz')
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
