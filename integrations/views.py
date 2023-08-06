@@ -148,6 +148,37 @@ class WebhookGuru(APIView):
         }
 
 
+class WebhookKiwify(APIView):
+    def post(self, request, id):
+        try:
+            print(request.data)
+            data = self._process_data(request.data)
+            phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
+            formatted_phone = format_phone_number(phone_number)
+            formatted_message = f'Checkout Kiwify:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+
+            #TODO: Enviar para a fila
+            user = Profile.objects.get(uuid=id)
+            save_count_call(id, 'kiwify')
+            response = WhatsApp().send_message(formatted_message, user.phone)
+
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            print("DATA =>", data)
+            print("USER =>", user)
+            return Response({ "body": str(e)}, status=status.HTTP_200_OK)
+
+    def _process_data(self, data):
+        return {
+            "product": data["Product"]["product_name"],
+            "id": data["order_id"],
+            "email": data["Customer"]["email"],
+            "name": data["Customer"]["full_name"],
+            "phone": data["Customer"]["mobile"]
+        }
+
+
 @login_required(login_url='/login')
 def integration_view(request):
     if request.method == 'POST':
