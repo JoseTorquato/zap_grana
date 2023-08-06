@@ -32,7 +32,6 @@ class WebhookActiveCampaign(APIView):
             return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
-        print(data)
         return {
             "list": data["list"],
             "id": data["contact[id]"],
@@ -78,6 +77,40 @@ class WebhookHotmart(APIView):
             "name": data["data"]["buyer"]["name"],
             "phone": data["data"]["buyer"]["phone"],
             "country": data["data"]["checkout_country"]["iso"]
+        }
+
+    def _format_phone_number(self, phone_number):
+        cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
+        return cleaned_phone
+
+
+class WebhookEduzz(APIView):
+    def post(self, request, id):
+        try:
+            print(request.data)
+            data = self._process_data(request.data)
+            phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
+            formatted_phone = self._format_phone_number(phone_number)
+            formatted_message = f'{data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+
+            #TODO: Enviar para a fila
+            user = Profile.objects.get(uuid=id)
+            response = WhatsApp().send_message(formatted_message, user.phone)
+
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            print("DATA =>", data)
+            print("USER =>", user)
+            return Response({ "body": str(e)}, status=status.HTTP_200_OK)
+
+    def _process_data(self, data):
+        return {
+            "product": data["product[title]"],
+            "id": data["identifier"],
+            "email": data["customer[email]"],
+            "name": data["customer[name]"],
+            "phone": data["customer[phone]"]
         }
 
     def _format_phone_number(self, phone_number):
