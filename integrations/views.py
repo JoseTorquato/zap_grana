@@ -122,28 +122,37 @@ class WebhookEduzz(APIView):
 def integration_view(request):
     if request.method == 'POST':
         btn = request.POST.get('btn')
+        platform = request.POST.get('platform')
         schema_integration = request.POST.get('integration')
         uuid = request.user.profile.uuid
-        url = f"http://15.228.146.110/integrations/{request.user.profile.uuid}/{schema_integration}"
+        url = f"15.228.146.110/integrations/{request.user.profile.uuid}/{schema_integration}"
 
-        try:
-            integration = Integration.objects.get(
-                user_uuid=request.user.profile.uuid)
-            if btn == 'Desativar':
-                integration.delete()
-        except:
-            integration = Integration(user_uuid=uuid, url=url, status='Ativo')
+        integration = Integration.objects.filter(
+            user_uuid=request.user.profile.uuid)
+
+        if btn == 'Desativar':
+            integration_delete = Integration.objects.get(
+            user_uuid=request.user.profile.uuid, platform=platform)
+
+            integration_delete.delete()
+
+        if btn == 'Ativar':
+            integration = Integration(platform=platform, user_uuid=uuid, url=url, status='Ativo')
             integration.save()
 
     try:
-        integration = Integration.objects.get(
+        integration = Integration.objects.filter(
             user_uuid=request.user.profile.uuid)
 
-        webhook_context = {
-            "status": integration.status,
-            "url": integration.url,
-            "countCalls": integration.call_count
-        }
+        webhook_context = {}
+        for i in integration:
+            webhook_context[i.platform] = {
+                "status": i.status,
+                "url": i.url,
+                "countCalls": i.call_count,
+                "platform": i.platform
+            }
+
     except Integration.DoesNotExist:
         webhook_context = {
             "status": "Desativado",
@@ -154,4 +163,4 @@ def integration_view(request):
     return render(
         request,
         'pages/integrations/integration.html',
-        context={"weebhook": webhook_context})
+        context={"webhook": webhook_context})

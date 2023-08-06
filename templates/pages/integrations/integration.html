@@ -7,6 +7,7 @@
 {% load static %}
 
 {% block content %}
+{{ webhook }}
 <div class="products_page product_page--grid mb-30">
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -26,27 +27,28 @@
                                                         <a href="">
                                                             <h6 class="card-title">Active Campaign</h6>
                                                             <input type="hidden" name="integration" value="active-campaign">
+                                                            <input type="hidden" name="platform" value="activeCampaign">
                                                         </a>
-                                                        <span>WeebHook</span>
+                                                        <span>webhook</span>
                                                     </div>
                                                 </div>
                                                 <div class="job-item__content d-flex">
                                                     <div class="job-deadline">
                                                         <span>URL</span>
-                                                        <h6>{{ weebhook.url }}</h6>
+                                                        <h6>{{ webhook.activeCampaign.url }}</h6>
                                                     </div>
                                                     <div class="job-type">
                                                         <span>Status</span>
-                                                        <h6>{{ weebhook.status }}</h6>
+                                                        <h6>{{ webhook.activeCampaign.status }}</h6>
                                                     </div>
                                                     <div class="job-salery">
                                                         <span>Chamadas Recebidas</span>
-                                                        <h6>{{ weebhook.countCalls }}</h6>
+                                                        <h6>{{ webhook.activeCampaign.countCalls }}</h6>
                                                     </div>
                                                 </div>
                                                 <div class="job-item__button d-flex flex-wrap my-sm-0 my-10">
-                                                    <button type="submit" name="btn" value="Desativar"  class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}" onclick="activateOrDeactivateWebHook(this)">
-                                                        {% if weebhook.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
+                                                    <button type="submit" name="btn" value="{% if webhook.activeCampaign.status == 'Ativo' %}Desativar{% else %}Ativar{% endif %}"  class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}">
+                                                        {% if webhook.activeCampaign.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
                                                     </button>
                                                 </div>
                                             </div>
@@ -76,27 +78,79 @@
                                                         <a href="">
                                                             <h6 class="card-title">Hotmart</h6>
                                                             <input type="hidden" name="integration" value="hotmart">
+                                                            <input type="hidden" name="platform" value="hotmart">
                                                         </a>
-                                                        <span>WeebHook</span>
+                                                        <span>webhook</span>
                                                     </div>
                                                 </div>
                                                 <div class="job-item__content d-flex">
                                                     <div class="job-deadline">
                                                         <span>URL</span>
-                                                        <h6>{{ weebhook.url }}</h6>
+                                                        <h6>{{ webhook.hotmart.url }}</h6>
                                                     </div>
                                                     <div class="job-type">
                                                         <span>Status</span>
-                                                        <h6>{{ weebhook.status }}</h6>
+                                                        <h6>{{ webhook.hotmart.status }}</h6>
                                                     </div>
                                                     <div class="job-salery">
                                                         <span>Chamadas Recebidas</span>
-                                                        <h6>{{ weebhook.countCalls }}</h6>
+                                                        <h6>{{ webhook.hotmart.countCalls }}</h6>
                                                     </div>
                                                 </div>
                                                 <div class="job-item__button d-flex flex-wrap my-sm-0 my-10">
-                                                    <button type="submit" name="btn" value="Desativar"  class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}" onclick="activateOrDeactivateWebHook(this)">
-                                                        {% if weebhook.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
+                                                    <button type="submit" name="btn" value="{% if webhook.hotmart.status == 'Ativo' %}Desativar{% else %}Ativar{% endif %}"  class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}">
+                                                        {% if webhook.hotmart.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-12 mt-xl-0 mt-lg-30">
+                <div class="row product-page-list justify-content-center">
+                    <div class="col-12 mb-25 px-10">
+                        <div class="card job job--list">
+                            <div class="h-100">
+                                <div class="job-item px-25 py-30">
+                                    <div class="card-body p-0 d-flex align-items-sm-center align-items-start flex-wrap">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <div class="job-item__body d-flex flex-wrap">
+                                                <div class="job-item__image d-flex align-items-center">
+                                                    <a href="#"><img class="job-item__image-img img-fluid" src="{% static 'img/integrations/eduzz.png' %}" alt="digital-chair"></a>
+                                                    <div class="job-item__title">
+                                                        <a href="">
+                                                            <h6 class="card-title">Eduzz</h6>
+                                                            <input type="hidden" name="integration" value="eduzz">
+                                                            <input type="hidden" name="platform" value="eduzz">
+                                                        </a>
+                                                        <span>webhook</span>
+                                                    </div>
+                                                </div>
+                                                <div class="job-item__content d-flex">
+                                                    <div class="job-deadline">
+                                                        <span>URL</span>
+                                                        <h6>{{ webhook.eduzz.url }}</h6>
+                                                    </div>
+                                                    <div class="job-type">
+                                                        <span>Status</span>
+                                                        <h6>{{ webhook.eduzz.status }}</h6>
+                                                    </div>
+                                                    <div class="job-salery">
+                                                        <span>Chamadas Recebidas</span>
+                                                        <h6>{{ webhook.eduzz.countCalls }}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="job-item__button d-flex flex-wrap my-sm-0 my-10">
+                                                    <button type="submit" name="btn" value="{% if webhook.eduzz.status == 'Ativo' %}Desativar{% else %}Ativar{% endif %}" class="btn btn-default btn-squared color-none btn-outline-none px-20" id="{{ user.id }}">
+                                                        {% if webhook.eduzz.status == "Ativo" %}Desativar{% else %}Ativar{% endif %} webhook
                                                     </button>
                                                 </div>
                                             </div>
@@ -111,8 +165,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    function activateOrDeactivateWebHook(e) { }
-</script>
 {% endblock %}
