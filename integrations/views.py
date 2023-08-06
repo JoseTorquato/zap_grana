@@ -127,7 +127,7 @@ class WebhookGuru(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            save_count_call(id, 'eduzz')
+            save_count_call(id, 'guru')
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
