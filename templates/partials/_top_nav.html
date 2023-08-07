@@ -570,11 +570,14 @@
               alt=""
               class="rounded-circle"
             /> -->
-            <span class="nav-item__title"
-              >{{ user.get_full_name }}<i
-                class="las la-angle-down nav-item__arrow"
-              ></i
-            ></span>
+            <span class="nav-item__title">
+                {% if user.get_full_name %}
+                    {{ user.get_full_name }}
+                {% elif user.profile.name%}
+                    {{user.profile.name}}
+                {% endif %}
+                <i class="las la-angle-down nav-item__arrow"></i>
+            </span>
           </a>
           <div class="dropdown-parent-wrapper">
             <div class="dropdown-wrapper">
@@ -587,8 +590,14 @@
                   />
                 </div> -->
                 <div>
-                  <h6>{{ user.get_full_name }}</h6>
-                  <span>Software Developer</span>
+                <h6>
+                    {% if user.get_full_name %}
+                        {{ user.get_full_name }}
+                    {% elif user.profile.name%}
+                        {{user.profile.name}}
+                    {% endif %}
+                </h6>
+                  <span></span>
                 </div>
               </div>
               <div class="nav-author__options">
@@ -619,7 +628,7 @@
                                             Help</a>
                                     </li>
                                 </ul> -->
-                <a href="#" class="nav-author__signout">
+                <a href="{% url 'logout' %}" class="nav-author__signout">
                   <i class="uil uil-sign-out-alt"></i> Sign Out</a
                 >
               </div>
