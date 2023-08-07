@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m=ru1)2dp9%tw&)^95&fzaev+)pq6&un8ddsac(xk*mn!t)kt1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['zapgrana.com.br', '172.31.38.75']
+ALLOWED_HOSTS = ['zapgrana.com.br', '172.31.38.75', '18.231.22.159']
 CSRF_TRUSTED_ORIGINS = ['https://*.zapgrana.com.br']
 
 
