@@ -217,7 +217,7 @@ def integration_view(request):
         platform = request.POST.get('platform')
         schema_integration = request.POST.get('integration')
         uuid = request.user.profile.uuid
-        url = f"15.228.146.110/integrations/{request.user.profile.uuid}/{schema_integration}"
+        url = f"https://zapgrana.com.br/integrations/{request.user.profile.uuid}/{schema_integration}"
 
         integration = Integration.objects.filter(
             user_uuid=request.user.profile.uuid)
