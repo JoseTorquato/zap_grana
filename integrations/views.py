@@ -48,9 +48,7 @@ class WebhookActiveCampaign(APIView):
             "email": data["contact[email]"],
             "first_name": data["contact[first_name]"],
             "last_name": data["contact[last_name]"],
-            "phone": data["contact[phone]"],
-            "ip": data["contact[ip]"],
-            "tags": data["contact[tags]"]
+            "phone": data["contact[phone]"]
         }
 
 
