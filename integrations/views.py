@@ -29,7 +29,7 @@ class WebhookActiveCampaign(APIView):
             data = self._process_data(request.data.dict())
             phone_number = data.get("phone", "")
             formatted_phone = format_phone_number(phone_number)
-            formatted_message = f'Checkout Active Campaign:\nProduto: {data.get("list", "")}:\nNome: {data.get("first_name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'Checkout Active Campaign:\nProduto: {data.get("list", "")}\nNome: {data.get("first_name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -61,7 +61,7 @@ class WebhookHotmart(APIView):
             data = self._process_data(request.data)
             phone_number = data.get("phone", "")
             formatted_phone = format_phone_number(phone_number)
-            formatted_message = f'Checkout Hotmart:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'Checkout Hotmart:\nProduto: {data.get("product", "")}\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -93,7 +93,7 @@ class WebhookEduzz(APIView):
             data = self._process_data(request.data)
             phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
             formatted_phone = format_phone_number(phone_number)
-            formatted_message = f'Checkout Eduzz:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'Checkout Eduzz:\nProduto: {data.get("product", "")}\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -124,7 +124,7 @@ class WebhookGuru(APIView):
             data = self._process_data(request.data)
             phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
             formatted_phone = format_phone_number(phone_number)
-            formatted_message = f'Checkout Guru:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'Checkout Guru:\nProduto: {data.get("product", "")}\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -140,7 +140,7 @@ class WebhookGuru(APIView):
 
     def _process_data(self, data):
         return {
-            "product": data["product"]["name"],
+            "product": data["product"]["offer"]["name"],
             "email": data["contact"]["email"],
             "name": data["contact"]["name"],
             "phone": data["contact"]["phone_number"],
@@ -155,7 +155,7 @@ class WebhookKiwify(APIView):
             data = self._process_data(request.data)
             phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
             formatted_phone = format_phone_number(phone_number)
-            formatted_message = f'Checkout Kiwify:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'Checkout Kiwify:\nProduto: {data.get("product", "")}\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
@@ -186,7 +186,7 @@ class WebhookTicTo(APIView):
             data = self._process_data(request.data)
             phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
             formatted_phone = format_phone_number(phone_number)
-            formatted_message = f'Checkout TicTo:\nProduto: {data.get("product", "")}:\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
+            formatted_message = f'Checkout TicTo:\nProduto: {data.get("product", "")}\nNome: {data.get("name", "")}\nContato: {data.get("phone", "")}\nhttps://wa.me/+55{formatted_phone}'
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
