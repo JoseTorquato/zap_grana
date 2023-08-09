@@ -10,6 +10,10 @@ from integrations.models import Integration
 from core.api.whatsapp import WhatsApp
 from user.models import Profile
 
+import logging
+
+logger = logging.getLogger('django')
+
 def save_count_call(user_uuid, platform):
     integration = Integration.objects.get(user_uuid=user_uuid, platform=platform)
     integration.call_count += 1
@@ -22,7 +26,6 @@ def format_phone_number(phone_number):
 class WebhookActiveCampaign(APIView):
     def post(self, request, id):
         try:
-            print(request)
             data = self._process_data(request.data.dict())
             phone_number = data.get("phone", "")
             formatted_phone = format_phone_number(phone_number)
@@ -35,9 +38,8 @@ class WebhookActiveCampaign(APIView):
 
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
-            # print("DATA =>", data)
-            print("USER =>", user)
+            logger.info(e)
+            logger.warning(request.data.dict())
             return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
@@ -118,7 +120,7 @@ class WebhookEduzz(APIView):
 class WebhookGuru(APIView):
     def post(self, request, id):
         try:
-            print(request.data)
+            logger.info(request.data)
             data = self._process_data(request.data)
             phone_number = data.get("phone", "") if data.get("phone", "")[0] != '0' else data.get("phone", "")[1:]
             formatted_phone = format_phone_number(phone_number)
@@ -131,9 +133,9 @@ class WebhookGuru(APIView):
 
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            # print(e)
-            # print("DATA =>", data)
-            # print("USER =>", user)
+            logger.warning(e)
+            logger.warning(id)
+            logger.warning(request.data)
             return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):

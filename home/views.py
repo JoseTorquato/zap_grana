@@ -3,13 +3,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+import logging
+
+logger = logging.getLogger('django')
 
 @login_required(login_url='/login')
 def home_view(request):
     try:
-        print(request.user.profile)
+        # logger.warning(request.user.profile)
         if request.user.profile:
-            print('teste')
             return render(request, 'index.html')
     except Exception as e:
         print(e)    
