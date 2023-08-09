@@ -140,8 +140,7 @@ class WebhookGuru(APIView):
 
     def _process_data(self, data):
         return {
-            "product": data["offer"]["name"],
-            "id": data["id"],
+            "product": data["product"]["name"],
             "email": data["contact"]["email"],
             "name": data["contact"]["name"],
             "phone": data["contact"]["phone_number"],
