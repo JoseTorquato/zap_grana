@@ -35,12 +35,13 @@ class WebhookActiveCampaign(APIView):
 
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
-            print("DATA =>", data)
-            print("USER =>", user)
+            # print(e)
+            # print("DATA =>", data)
+            # print("USER =>", user)
             return Response({ "body": str(e)}, status=status.HTTP_200_OK)
 
     def _process_data(self, data):
+        print(data)
         return {
             "list": data["list"],
             "id": data["contact[id]"],

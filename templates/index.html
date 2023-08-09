@@ -7,4 +7,62 @@
 {% load static %}
 
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="shop-breadcrumb">
+                <div class="breadcrumb-main">
+                    <h4 class="text-capitalize breadcrumb-title">Dashboard</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Carrinhos abandonados
+                </div>
+                <div class="card-body" dir="ltr">
+                    <div class="">
+                        <div class="barChart" id="barChartAbandoned"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Sample data for the bar chart
+        const data = {
+            labels: ['Category A', 'Category B', 'Category C'],
+            series: [
+                { data: [10, 20, 15] } // Example data values
+            ]
+        };
+
+        // Options for the bar chart
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 350,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                }
+            },
+            xaxis: {
+                categories: data.labels,
+            }
+        };
+
+        // Create a new instance of ApexCharts and render the chart
+        const chart = new ApexCharts(document.querySelector(".barChart"), options);
+        chart.render();
+    });
+</script>
+
+
 {% endblock %}

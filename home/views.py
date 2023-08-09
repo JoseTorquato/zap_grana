@@ -7,9 +7,12 @@ from django.shortcuts import redirect, render
 @login_required(login_url='/login')
 def home_view(request):
     try:
+        print(request.user.profile)
         if request.user.profile:
+            print('teste')
             return render(request, 'index.html')
-    except:    
+    except Exception as e:
+        print(e)    
         return redirect('/profile')
 
 
