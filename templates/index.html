@@ -19,11 +19,11 @@
         <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-header">
-                    Carrinhos abandonados
+                    Carrinhos abandonados {{ dash.categories }}
                 </div>
                 <div class="card-body" dir="ltr">
                     <div class="">
-                        <div class="barChart" id="barChartAbandoned"></div>
+                        <div class="dashboardHome" id="barChartAbandoned"></div>
                     </div>
                 </div>
             </div>
@@ -31,37 +31,46 @@
     </div>
 </div>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Sample data for the bar chart
-        const data = {
-            labels: ['Category A', 'Category B', 'Category C'],
-            series: [
-                { data: [10, 20, 15] } // Example data values
-            ]
-        };
-
-        // Options for the bar chart
-        const options = {
+    function barChart(idName, width, height = "270", data, categories) {
+        var optionRadial = {
+            series: [{
+                data
+            }],
+            colors: ['#8231D3'],
             chart: {
+                width: width,
+                height: height,
                 type: 'bar',
-                height: 350,
+            },
+            legend: {
+                show: false
             },
             plotOptions: {
                 bar: {
+                    borderRadius: 4,
                     horizontal: false,
                 }
             },
+            dataLabels: {
+                enabled: false
+            },
             xaxis: {
-                categories: data.labels,
+                categories,
             }
-        };
 
-        // Create a new instance of ApexCharts and render the chart
-        const chart = new ApexCharts(document.querySelector(".barChart"), options);
-        chart.render();
-    });
+        };
+        const element = document.querySelector(idName);
+        if (element !== null) {
+            new ApexCharts(document.querySelector(idName), optionRadial).render();
+        }
+    }
+
+    const dashCategories = {{ dashboard.categories|safe }}
+    const callsData = {{ dashboard.data|safe }}
+    const keysArray = Object.keys(callsData);
+    const valuesArray = Object.values(callsData);
+    barChart('.dashboardHome', '100%', 280, valuesArray, keysArray);
 </script>
 
 

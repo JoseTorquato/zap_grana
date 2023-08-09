@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from integrations.models import Integration
+from integrations.models import CalledWebHook, Integration
 from core.api.whatsapp import WhatsApp
 from user.models import Profile
 
@@ -14,10 +14,13 @@ import logging
 
 logger = logging.getLogger('django')
 
-def save_count_call(user_uuid, platform):
+def save_count_call(user_uuid, platform, response_data):
     integration = Integration.objects.get(user_uuid=user_uuid, platform=platform)
     integration.call_count += 1
     integration.save()
+
+    webhook_call = CalledWebHook(integration=integration, response_data=response_data)
+    webhook_call.save()
 
 def format_phone_number(phone_number):
         cleaned_phone = phone_number.replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+55", "")
@@ -65,7 +68,7 @@ class WebhookHotmart(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            save_count_call(id, 'hotmart')
+            save_count_call(id, 'hotmart', data)
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
@@ -97,7 +100,7 @@ class WebhookEduzz(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            save_count_call(id, 'eduzz')
+            save_count_call(id, 'eduzz', data)
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
@@ -109,11 +112,11 @@ class WebhookEduzz(APIView):
 
     def _process_data(self, data):
         return {
-            "product": data["product[title]"],
+            "product": data["product"]["title"],
             "id": data["identifier"],
-            "email": data["customer[email]"],
-            "name": data["customer[name]"],
-            "phone": data["customer[phone]"]
+            "email": data["customer"]["email"],
+            "name": data["customer"]["name"],
+            "phone": data["customer"]["phone"]
         }
 
 
@@ -128,7 +131,7 @@ class WebhookGuru(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            save_count_call(id, 'guru')
+            save_count_call(id, 'guru', data)
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
@@ -159,7 +162,7 @@ class WebhookKiwify(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            save_count_call(id, 'kiwify')
+            save_count_call(id, 'kiwify', data)
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
@@ -190,7 +193,7 @@ class WebhookTicTo(APIView):
 
             #TODO: Enviar para a fila
             user = Profile.objects.get(uuid=id)
-            save_count_call(id, 'ticto')
+            save_count_call(id, 'ticto', data)
             response = WhatsApp().send_message(formatted_message, user.phone)
 
             return Response(response, status=status.HTTP_200_OK)
