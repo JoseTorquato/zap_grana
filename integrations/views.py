@@ -43,7 +43,7 @@ class WebhookActiveCampaign(APIView):
     def _process_data(self, data):
         print(data)
         return {
-            "list": data["list"],
+            "list": data.get("list", ''),
             "id": data["contact[id]"],
             "email": data["contact[email]"],
             "first_name": data["contact[first_name]"],
