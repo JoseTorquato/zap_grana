@@ -19,7 +19,7 @@
         <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-header">
-                    Carrinhos abandonados {{ dash.categories }}
+                    Carrinhos abandonados
                 </div>
                 <div class="card-body" dir="ltr">
                     <div class="">
@@ -35,9 +35,11 @@
     function barChart(idName, width, height = "270", data, categories) {
         var optionRadial = {
             series: [{
+                name: 'Chamadas de Carrinho Abandonado',
                 data
             }],
-            colors: ['#8231D3'],
+            // colors: ['#8231D3'],
+            colors: ['#008000'],
             chart: {
                 width: width,
                 height: height,
@@ -57,7 +59,7 @@
             },
             xaxis: {
                 categories,
-            }
+            },
 
         };
         const element = document.querySelector(idName);
