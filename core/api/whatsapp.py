@@ -3,7 +3,7 @@ import json
 
 class WhatsApp:
     def __init__(self):
-        self.base_url = 'http://18.231.180.54:8000'
+        self.base_url = 'http://52.67.244.232:8000/'
 
     def send_message(self, message, phone_to_send):
         if len(phone_to_send) == 11:

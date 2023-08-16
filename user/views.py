@@ -11,7 +11,7 @@ def profile_view(request):
         phone = request.POST.get('phone')
 
         profile = Profile.objects.get(user_id=request.user.id)
-        
+
         if profile:
             profile.name = name
             profile.email = email
@@ -21,5 +21,5 @@ def profile_view(request):
         else:
             setup = Profile(name=name, email=email, phone=phone, user_id=request.user.id)
             setup.save()
-
+    
     return render(request, 'pages/user/profile.html')
