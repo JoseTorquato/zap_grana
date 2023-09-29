@@ -12,28 +12,33 @@
 <div class="dm-page-content">
     <div class="container-fluid">
         <div class="row calendar-grid justify-content-center">
-            <div class="col-md-12 justify-content-end">
-                <label for="customDateField">Selecione sua data: </label>
-                <input type="date" class="col-md-3 form-control" id="customDateField">
-            </div>
-            <div class="dm-badge-text">
-                <span class="badge-dot dot-warning"></span>
-                <span>Pré Reserva</span>
-            </div>
-            <div class="dm-badge-text">
-                <span class="badge-dot dot-danger"></span>
-                <span>Ocupado</span>
-            </div>
             <div class="col-md-12">
-                <div class="card card-default card-md mb-4">
-                    <div class="card-body">
-                        <div id='calendario'></div>
+                <div class="d-flex justify-content-end align-items-center mb-2">
+                    <label for="customDateField" class="me-2">Pesquisar: </label>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" id="customDateField">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card card-default card-md mb-4">
+                        <div class="card-body">
+                            <div id='calendario'></div>
+                            <div class="dm-badge-text d-inline">
+                                <span class="badge-dot dot-warning me-1"></span>
+                                <span>Pré Reserva</span>
+                            </div>
+                            <div class="ms-2 dm-badge-text d-inline">
+                                <span class="badge-dot dot-danger me-1"></span>
+                                <span>Ocupado</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <input type="hidden" id="reservados" value="{{ reservados }}">
 <input type="hidden" id="ocupados" value="{{ ocupados }}">
 
@@ -60,7 +65,7 @@
     
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendario');
-
+        var today = document.getElementsByClassName('fc-today-button');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'pt-br',
             customButtons: {
@@ -76,9 +81,12 @@
                 },
               },
             headerToolbar: {
-                left: "today, prev,next",
+                left: "prev,today,next",
                 center: "title",
                 right: "Search",
+            },
+            buttonText: {
+                today: "Hoje",
             },
             listDayFormat: true,
             listDayAltFormat: true,
@@ -88,8 +96,8 @@
             initialView: "dayGridMonth",
             eventSources: [reservado, ocupado],
         });
-        
         calendar.render(); // Renderiza o calendário no elemento especificado
+        
     });
 </script>
 {% endblock %}
