@@ -7,11 +7,11 @@
       stick: true, // maintain when user navigates (see docs on the renderEvent method)
     });
     // make the event draggable using jQuery UI
-    $(this).draggable({
-      zIndex: 999,
-      revert: true, // will cause the event to go back to its
-      revertDuration: 0, //  original position after the drag 
-    });
+    // $(this).draggable({
+    //   zIndex: 999,
+    //   revert: true, // will cause the event to go back to its
+    //   revertDuration: 0, //  original position after the drag 
+    // });
   });
 
   let date = new Date();
@@ -23,7 +23,7 @@
       {
         id: "1",
         start: moment().format('YYYY-MM-17') + "T08:30:00",
-        title: "Family Events",
+        title: "Family Eventsaaaaaa",
       },
       {
         id: "2",
@@ -82,26 +82,27 @@
   };
 
   document.addEventListener("DOMContentLoaded", function () {
-    var fullCalendar = document.getElementById("full-calendar");
+    var fullCalendar = document.getElementById("full-calendar123");
     if (fullCalendar) {
       var calendar = new FullCalendar.Calendar(fullCalendar, {
         headerToolbar: {
           left: "today,prev,title,next",
-          right: "timeGridDay,timeGridWeek,dayGridMonth,listMonth",
+          right: "",
+          // right: "timeGridDay,timeGridWeek,dayGridMonth,listMonth",
         },
         views: {
-          listMonth: {
-            buttonText: "Schedule",
-            titleFormat: { month: "short", weekday: "short" },
-          }
+          // listMonth: {
+          //   buttonText: "Schedule",
+          //   titleFormat: { month: "short", weekday: "short" },
+          // }
         },
         listDayFormat: true,
         listDayAltFormat: true,
         allDaySlot: false,
         editable: true,
         eventSources: [familyEvents, productLaunch, teamMeeting, projectUpdate],
-        contentHeight: 800,
-        initialView: "timeGridDay",
+        contentHeight: 600,
+        initialView: "dayGridMonth",
         eventDidMount: function (view) {
           $(".fc-list-day").each(function () {});
         },
@@ -114,16 +115,16 @@
         },
       });
 
-      let eventElement = document.getElementById("draggable-events");
-      let draggable = new FullCalendar.Draggable(eventElement, {
-        itemSelector: ".draggable-event-list__single",
-        eventData: function (eEl) {
-          return {
-            title: eEl.innerText,
-            className: $(eEl).data("class"),
-          };
-        },
-      });
+      // let eventElement = document.getElementById("draggable-events");
+      // let draggable = new FullCalendar.Draggable(eventElement, {
+      //   itemSelector: ".draggable-event-list__single",
+      //   eventData: function (eEl) {
+      //     return {
+      //       title: eEl.innerText,
+      //       className: $(eEl).data("class"),
+      //     };
+      //   },
+      // });
       calendar.render();
       $('.fc-button-group .fc-listMonth-button').prepend( '<i class="las la-list"></i>' );
     }

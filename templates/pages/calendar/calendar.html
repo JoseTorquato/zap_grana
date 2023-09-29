@@ -1,0 +1,95 @@
+{% extends 'layout/no-side-bar.html' %}
+
+{% block title %} Calendar {% endblock %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="dm-page-content">
+    <div class="container-fluid">
+        <div class="row calendar-grid justify-content-center">
+            <div class="col-md-12 justify-content-end">
+                <label for="customDateField">Selecione sua data: </label>
+                <input type="date" class="col-md-3 form-control" id="customDateField">
+            </div>
+            <div class="dm-badge-text">
+                <span class="badge-dot dot-warning"></span>
+                <span>Pré Reserva</span>
+            </div>
+            <div class="dm-badge-text">
+                <span class="badge-dot dot-danger"></span>
+                <span>Ocupado</span>
+            </div>
+            <div class="col-md-12">
+                <div class="card card-default card-md mb-4">
+                    <div class="card-body">
+                        <div id='calendario'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="reservados" value="{{ reservados }}">
+<input type="hidden" id="ocupados" value="{{ ocupados }}">
+
+<script src="{% static 'js/plugins/fullcalendar@5.2.0.js' %}"></script>
+<script src="{% static 'js/plugins/moment.js' %}"></script>
+
+<script>
+    const reservados = document.getElementById("reservados").value
+    const ocupados = document.getElementById("ocupados").value
+
+    let reservado = {
+        id: 1,
+        events: JSON.parse(reservados),
+        className: "red",
+        textColor: "#FFF",
+      };
+      
+      let ocupado = {
+        id: 4,
+        events: JSON.parse(ocupados),
+        className: "warning",
+        textColor: "#FFF",
+      };
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendario');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'pt-br',
+            customButtons: {
+                Search: {
+                  text: 'Buscar',
+                  click: function() {
+                    const dataSelecionada = document.getElementById('customDateField').value;
+            
+                    if (dataSelecionada) {
+                        calendar.gotoDate(dataSelecionada);
+                    }
+                  }
+                },
+              },
+            headerToolbar: {
+                left: "today, prev,next",
+                center: "title",
+                right: "Search",
+            },
+            listDayFormat: true,
+            listDayAltFormat: true,
+            allDaySlot: false,
+            editable: true,
+            contentHeight: 600,
+            initialView: "dayGridMonth",
+            eventSources: [reservado, ocupado],
+        });
+        
+        calendar.render(); // Renderiza o calendário no elemento especificado
+    });
+</script>
+{% endblock %}
