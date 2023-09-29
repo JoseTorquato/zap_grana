@@ -43,9 +43,6 @@ INSTALLED_APPS = [
     
     'rest_framework',
 
-    'home',
-    'integrations',
-    'user',
     'agenda',
 ]
 
