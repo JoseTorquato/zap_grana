@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,7 +29,6 @@ SECRET_KEY = 'django-insecure-m=ru1)2dp9%tw&)^95&fzaev+)pq6&un8ddsac(xk*mn!t)kt1
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.zapgrana.com.br']
 
 
 # Application definition
@@ -125,7 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static/"]
+STATIC_ROOT= os.path.join(BASE_DIR, 'statifiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -163,3 +165,5 @@ LOGGING = {
         }
     }
 }
+
+django_heroku.settings(locals())
