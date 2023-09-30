@@ -11,7 +11,7 @@ def calendar_view(request):
     reservados =  []
     ocupados =  []
     for reservado in registros_reservados:
-        if reservado.status == 'reservado':
+        if reservado.status == 'pré reserva':
             reservados.append({ "id": reservado.id, "start": reservado.event_date.strftime('%Y-%m-%dT00:00:00'), "end": reservado.event_date.strftime('%Y-%m-%dT23:59:59'), "title": reservado.bride_and_groom_names  })
         elif reservado.status == 'ocupado':
             ocupados.append({ "id": reservado.id, "start": reservado.event_date.strftime('%Y-%m-%d'), "end": reservado.event_date.strftime('%Y-%m-%d'), "title": reservado.bride_and_groom_names  })
