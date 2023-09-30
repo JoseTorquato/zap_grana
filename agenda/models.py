@@ -31,18 +31,18 @@ class WeddingRegistration(models.Model):
     groom_instagram_profile = models.CharField(max_length=255, blank=True, null=True, verbose_name="Perfil Instagram do Noivo")
 
     # Status
-    RESERVADO = 'reservado'
+    PRE_RESERVA = 'pré reserva'
     OCUPADO = 'ocupado'
 
     CHOICES = (
-        (RESERVADO, 'Reservado'),
+        (PRE_RESERVA, 'Pré Reserva'),
         (OCUPADO, 'Ocupado'),
     )
 
     status = models.CharField(
-        max_length=10,
+        max_length=15,
         choices=CHOICES,
-        default=RESERVADO,  # Defina um valor padrão se necessário
+        default=PRE_RESERVA,  # Defina um valor padrão se necessário
     )
     class Meta:
         verbose_name_plural = "Registros de Casamento"
