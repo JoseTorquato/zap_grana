@@ -66,13 +66,13 @@
     let reservado = {
         id: 1,
         events: JSON.parse(reservados)
-      };
+    };
       
-      let ocupado = {
-        id: 4,
-        events: JSON.parse(ocupados)
-      };
-    console.log(ocupado)
+    let ocupado = {
+    id: 4,
+    events: JSON.parse(ocupados)
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendario');
         var today = document.getElementsByClassName('fc-today-button');
@@ -109,7 +109,7 @@
                 today: "Hoje",
             },
             listDayFormat: true,
-            allDaySlot: false,
+            allDaySlot: true,
             editable: true,
             initialView: "dayGridMonth",
             height: 'auto',
@@ -135,6 +135,5 @@
             }       
         });
     });
-
 </script>
 {% endblock %}
