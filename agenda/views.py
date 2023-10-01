@@ -12,9 +12,9 @@ def calendar_view(request):
     ocupados =  []
     for reservado in registros_reservados:
         if reservado.status == 'pré reserva':
-            reservados.append({ "id": reservado.id, "start": reservado.event_date.strftime('%Y-%m-%d'), "title": reservado.bride_and_groom_names, "display": "background", "backgroundColor": "#FF0F0F"  })
+            reservados.append({ "id": reservado.id, "start": reservado.event_date.strftime('%Y-%m-%d'), "title": reservado.bride_and_groom_names, "display": "background", "backgroundColor": "red", "textColor": "black"  })
         elif reservado.status == 'ocupado':
-            ocupados.append({ "id": reservado.id, "start": reservado.event_date.strftime('%Y-%m-%d'), "allDay": True, "title": reservado.bride_and_groom_names, "display": "background", "backgroundColor": "#FF8C00"  })
+            ocupados.append({ "id": reservado.id, "start": reservado.event_date.strftime('%Y-%m-%d'), "allDay": True, "title": reservado.bride_and_groom_names, "display": "background", "backgroundColor": "yellow", "textColor": "black"  })
 
     return render(request, 'pages/calendar/calendar.html', context={
         "reservados": json.dumps(reservados),

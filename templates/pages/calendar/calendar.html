@@ -65,18 +65,14 @@
 
     let reservado = {
         id: 1,
-        events: JSON.parse(reservados),
-        className: "red",
-        textColor: "#FFF",
+        events: JSON.parse(reservados)
       };
       
       let ocupado = {
         id: 4,
-        events: JSON.parse(ocupados),
-        className: "warning",
-        textColor: 'black'
+        events: JSON.parse(ocupados)
       };
-    
+    console.log(ocupado)
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendario');
         var today = document.getElementsByClassName('fc-today-button');
@@ -119,7 +115,7 @@
             height: 'auto',
             eventSources: [reservado, ocupado],
         });
-        calendar.render(); // Renderiza o calendário no elemento especificado
+        calendar.render();
         
         document.addEventListener('click', function() {
             const dataSelecionada = document.getElementById('customDateField').value;
