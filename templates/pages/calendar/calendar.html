@@ -14,11 +14,12 @@
         <div class="row calendar-grid justify-content-center">
             <div class="col-md-12">
                 <div class="d-flex justify-content-end align-items-center mb-2">
-                    <label for="customDateField" class="me-2">Pesquisar: </label>
-                    <div class="col-md-2">
-                        <input type="date" class="form-control" id="customDateField">
-                    </div>
-                </div>
+                    <div class="col-md-7 offset-md-2"></div>
+                    <label for="customDateField" class="me-2">Pesquisar:</label>
+                    <input type="text" class="form-control ih-medium ip-gray radius b-light me-2" id="customDateField" placeholder="01/01/2000">
+                    <button type="button" class="btn btn-default btn-squared btn-primary">Buscar</button>
+                  </div>
+                  
                 <div class="col-md-12">
                     <div class="card card-default card-md mb-4">
                         <div class="card-body">
@@ -46,6 +47,19 @@
 <script src="{% static 'js/plugins/moment.js' %}"></script>
 
 <script>
+    const dateInput = document.getElementById('customDateField');
+
+    dateInput.addEventListener('input', function () {
+        const value = dateInput.value.replace(/\D/g, '');
+        
+        if (value.length <= 8) {
+        dateInput.value = value
+            .replace(/(\d{2})(\d)/, '$1/$2')
+            .replace(/(\d{2})(\d)/, '$1/$2');
+        } else {
+        dateInput.value = value.slice(0, 8);
+        }
+    });
     const reservados = document.getElementById("reservados").value
     const ocupados = document.getElementById("ocupados").value
 
@@ -60,7 +74,7 @@
         id: 4,
         events: JSON.parse(ocupados),
         className: "warning",
-        textColor: "#FFF",
+        textColor: 'black'
       };
     
     document.addEventListener('DOMContentLoaded', function () {
@@ -73,31 +87,58 @@
                   text: 'Buscar',
                   click: function() {
                     const dataSelecionada = document.getElementById('customDateField').value;
-            
-                    if (dataSelecionada) {
-                        calendar.gotoDate(dataSelecionada);
+                    const parts = dataSelecionada.split('/');
+    
+                    if (parts.length === 3) {
+                        const day = parts[0];
+                        const month = parts[1];
+                        const year = parts[2];
+                        
+                        if (!isNaN(day) && !isNaN(month) && !isNaN(year) && day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+                            const convertedDate = `${year}-${month}-${day}`;
+                            if (convertedDate) {
+                                calendar.gotoDate(convertedDate);
+                            }
+                        }
                     }
                   }
                 },
               },
             headerToolbar: {
-                left: "prev,today,next",
+                left: "today,prev",
                 center: "title",
-                right: "Search",
+                right: "next",
             },
             buttonText: {
                 today: "Hoje",
             },
             listDayFormat: true,
-            listDayAltFormat: true,
             allDaySlot: false,
             editable: true,
-            contentHeight: 600,
             initialView: "dayGridMonth",
+            height: 'auto',
             eventSources: [reservado, ocupado],
         });
         calendar.render(); // Renderiza o calendário no elemento especificado
         
+        document.addEventListener('click', function() {
+            const dataSelecionada = document.getElementById('customDateField').value;
+            const parts = dataSelecionada.split('/');
+        
+            if (parts.length === 3) {
+                const day = parts[0];
+                const month = parts[1];
+                const year = parts[2];
+                
+                if (!isNaN(day) && !isNaN(month) && !isNaN(year) && day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+                    const convertedDate = `${year}-${month}-${day}`;
+                    if (convertedDate) {
+                        calendar.gotoDate(convertedDate);
+                    }
+                }
+            }       
+        });
     });
+
 </script>
 {% endblock %}

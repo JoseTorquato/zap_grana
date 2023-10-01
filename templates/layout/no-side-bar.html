@@ -15,10 +15,15 @@
 
     {% comment %} <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/svg/favicon.png' %}"> {% endcomment %}
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.0/css/line.css">
-
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <style>
+        @media (max-width: 767px) {
+            .fc-header-toolbar {
+              font-size: 12px; /* Tamanho de fonte menor */
+              padding: 8px; /* Espaçamento interno menor */
+            }
+        }
         .red {
             background-color: #FF0F0F;
         }
