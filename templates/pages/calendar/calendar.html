@@ -17,7 +17,7 @@
                     <div class="col-md-7 offset-md-2"></div>
                     {% comment %} <label for="customDateField" class="me-2">Pesquisar:</label> {% endcomment %}
                     <input type="text" class="form-control ih-medium ip-gray radius b-light me-2" id="customDateField" placeholder="01/01/2000">
-                    <button type="button" class="btn btn-default btn-squared btn-primary">Buscar</button>
+                    <button type="button" class="btn btn-default btn-squared btn-primary" id="customDateButton">Buscar</button>
                   </div>
                   
                 <div class="col-md-12">
@@ -105,7 +105,8 @@
         });
         calendar.render();
         
-        document.addEventListener('click', function() {
+        const customDateButton = document.getElementById('customDateButton');
+        customDateButton.addEventListener('click', function() {
             const dataSelecionada = document.getElementById('customDateField').value;
             const parts = dataSelecionada.split('/');
         
@@ -118,14 +119,20 @@
                 if (!isNaN(day) && !isNaN(month) && !isNaN(year) && day >= 1 && day <= 31 && month >= 1 && month <= 12) {
                     const convertedDate = new Date(`${year}-${month}-${day}`);
                     if (isValidDate(convertedDate)) {
+                        document.getElementById('customDateField').classList.remove('is-invalid')
                         document.getElementById('customDateField').classList.add('is-valid')
-                        calendar.gotoDate(convertedDate);
+                        calendar.gotoDate(`${year}-${month}-${day}`);
                     } else {
                         alert(`Data: ${dataSelecionada} não encontrada.`)
+                        document.getElementById('customDateField').classList.remove('is-valid')
                         document.getElementById('customDateField').classList.add('is-invalid')
                     }
+                } else {
+                    alert(`Data: ${dataSelecionada} não encontrada.`)
+                    document.getElementById('customDateField').classList.remove('is-valid')
+                    document.getElementById('customDateField').classList.add('is-invalid')
                 }
-            }       
+            } 
         });
 
         function isValidDate(d) {
