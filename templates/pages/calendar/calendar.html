@@ -88,12 +88,24 @@
             buttonText: {
                 today: "Hoje",
             },
-            dayMaxEventRows: true, // Isso permite que o calendário mostre todos os eventos em uma única célula do dia.
+            dayHeaderContent: function(arg) {
+                const dayNames = {
+                    0: 'Domingo',
+                    1: 'Segunda',
+                    2: 'Terça',
+                    3: 'Quarta',
+                    4: 'Quinta',
+                    5: 'Sexta',
+                    6: 'Sábado',
+                };
+                
+                return dayNames[arg.date.getUTCDay()];
+            },
             views: {
                 dayGridMonth: {
                     dayHeaderFormat: {
-                        weekday: 'long'
-                    }
+                        weekday: 'long',
+                    },
                 },
               },
             listDayFormat: true,
