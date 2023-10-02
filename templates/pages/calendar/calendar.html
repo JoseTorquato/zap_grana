@@ -125,9 +125,11 @@
             if (parts.length === 3) {
                 const day = parts[0];
                 const month = parts[1];
-                const year = parts[2] ? parts[2].length === 4 : `20${parts[2]}`;
+                let year = parts[2] 
+                if (year.length == 2) {
+                    year = `20${parts[2]}`;
+                }
                 
-
                 if (!isNaN(day) && !isNaN(month) && !isNaN(year) && day >= 1 && day <= 31 && month >= 1 && month <= 12) {
                     const convertedDate = new Date(`${year}-${month}-${day}`);
                     if (isValidDate(convertedDate)) {
