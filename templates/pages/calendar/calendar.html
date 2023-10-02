@@ -107,7 +107,7 @@
                         weekday: 'long',
                     },
                 },
-              },
+            },
             listDayFormat: true,
             allDaySlot: true,
             editable: true,
@@ -125,24 +125,18 @@
             if (parts.length === 3) {
                 const day = parts[0];
                 const month = parts[1];
-                const year = parts[2];
+                const year = parts[2] ? parts[2].length === 4 : `20${parts[2]}`;
                 
 
                 if (!isNaN(day) && !isNaN(month) && !isNaN(year) && day >= 1 && day <= 31 && month >= 1 && month <= 12) {
                     const convertedDate = new Date(`${year}-${month}-${day}`);
                     if (isValidDate(convertedDate)) {
-                        document.getElementById('customDateField').classList.remove('is-invalid')
-                        document.getElementById('customDateField').classList.add('is-valid')
                         calendar.gotoDate(`${year}-${month}-${day}`);
                     } else {
                         alert(`Data: ${dataSelecionada} não encontrada.`)
-                        document.getElementById('customDateField').classList.remove('is-valid')
-                        document.getElementById('customDateField').classList.add('is-invalid')
                     }
                 } else {
                     alert(`Data: ${dataSelecionada} não encontrada.`)
-                    document.getElementById('customDateField').classList.remove('is-valid')
-                    document.getElementById('customDateField').classList.add('is-invalid')
                 }
             } 
         });
