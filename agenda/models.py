@@ -48,4 +48,4 @@ class WeddingRegistration(models.Model):
         verbose_name_plural = "Registros de Casamento"
 
     def __str__(self):
-        return self.full_name 
+        return self.bride_and_groom_names 
