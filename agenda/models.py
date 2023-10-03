@@ -18,7 +18,7 @@ class WeddingRegistration(models.Model):
     profession = models.CharField(max_length=100, blank=True, null=True, verbose_name="Profissão")
 
     # Informações do evento
-    event_date = models.DateField(blank=True, null=True, verbose_name="Data do Evento")
+    event_date = models.DateField(unique=True, blank=True, null=True, verbose_name="Data do Evento")
     number_of_guests = models.IntegerField(blank=True, null=True, verbose_name="Número de Convidados")
     bride_and_groom_names = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nome dos Noivos")
 
